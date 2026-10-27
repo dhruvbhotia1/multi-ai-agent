@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import {Navbar} from "@/components/home/Navbar";
+import {BinaryPortalBackground} from "@/components/ParticleBackground"
+import {Toaster} from "sonner";
+import {ThemeProvider} from "next-themes";
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
+  variable: "--font-sans",
   subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+  variable: "--font-mono",
   subsets: ["latin"],
 });
 
@@ -22,8 +26,23 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+
+      <body className="min-h-full flex flex-col bg-black">
+
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <Toaster/>
+        <BinaryPortalBackground/>
+
+        <Navbar />
+
+        <main className="flex flex-col w-full h-full mt-15">
+          {children}
+        </main>
+
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
