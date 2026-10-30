@@ -1,4 +1,5 @@
 import {auth} from "@/lib/auth";
+import {authClient} from "@/lib/authClient";
 
 export type ApiResponse<T = unknown> = {
 
@@ -14,3 +15,6 @@ export type ApiResponse<T = unknown> = {
 
 export type serverSession = typeof auth.$Infer.Session
 
+export type clientSession = typeof authClient.$Infer.Session
+
+export type user = typeof auth.$Infer.Session.user

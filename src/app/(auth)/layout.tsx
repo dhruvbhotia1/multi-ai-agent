@@ -36,7 +36,7 @@ export default async function AuthLayout({ children }: Props) {
             </Link>
             <div className={"flex w-full max-w-lg flex-col gap-6 text-white"}>
                 <Link href={"/public"} className={"flex items-center gap-2 self-center font-medium"}>
-                    <Image src={"./logo.svg"} alt={"logo"} height={40} width={40} />
+                    <Image src={"./Logo.svg"} alt={"logo"} height={40} width={40} />
                     <span className={"font-semibold"}>VortexAI</span>
                 </Link>
 

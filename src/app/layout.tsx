@@ -22,10 +22,12 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning={true}
 
     >
 
@@ -35,9 +37,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Toaster/>
         <BinaryPortalBackground/>
 
-        <Navbar />
-
+          <Navbar />
         <main className="flex flex-col w-full h-full mt-15">
+          <Toaster/>
           {children}
         </main>
 
