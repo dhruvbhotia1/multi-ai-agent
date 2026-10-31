@@ -1,10 +1,11 @@
 'use client'
 import { motion } from "motion/react"
-import {useRouter} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import {authClient} from "@/lib/authClient";
 import {NavUser} from "@/components/home/NavUserButton";
+import {cn} from "@/lib/utils";
 
 
 export const Navbar = () => {
@@ -13,6 +14,7 @@ export const Navbar = () => {
 
     const session = authClient.useSession()
 
+    const pathname = usePathname();
 
 
   return (
@@ -24,7 +26,7 @@ export const Navbar = () => {
           <Link href={"/"}>
 
             <div className="text-lg font-bold tracking-wide flex items-center cursor-pointer text-white" onClick={() => router.push("/")}>
-              <Image src="./Logo.svg" height={35} width={35} alt="logo" className="mr-2"/>
+              <Image src="/Logo.svg" height={35} width={35} alt="logo" className="mr-2"/>
               <span>Vortex</span><span className={"text-muted-foreground"}>AI</span>
             </div>
           </Link>
@@ -35,10 +37,10 @@ export const Navbar = () => {
                   session.data ? (
 
                       <div className={"flex flex-row items-center justify-center gap-x-4"}>
-                          <Link href={`/studio/${session.data.user.id}`} className={"hover:bg-zinc-800 p-3 rounded-lg font-semibold"}>Studio</Link>
-                          <Link href="/dashboard" className={"hover:bg-zinc-800 p-3 rounded-lg font-semibold"}>Dashboard</Link>
-                          <Link href="/pricing" className={"hover:bg-zinc-800 p-3 rounded-lg font-semibold"}>Pricing</Link>
-                          <Link href="/contact-us" className={"hover:bg-zinc-800 p-3 rounded-lg font-semibold"}>Contact Us</Link>
+                          <Link href={`/studio/${session.data.user.id}`} className={cn("hover:bg-zinc-800 p-3 rounded-lg font-semibold", pathname.includes("studio") && "bg-zinc-700" )}>Studio</Link>
+                          <Link href="/dashboard" className={cn("hover:bg-zinc-800 p-3 rounded-lg font-semibold", pathname.includes("dashboard") && "bg-zinc-700" )}>Dashboard</Link>
+                          <Link href="/pricing" className={cn("hover:bg-zinc-800 p-3 rounded-lg font-semibold", pathname.includes("pricing") && "bg-zinc-700" )}>Pricing</Link>
+                          <Link href="/contact-us" className={cn("hover:bg-zinc-800 p-3 rounded-lg font-semibold", pathname.includes("contact") && "bg-zinc-700" )}>Contact Us</Link>
                           <NavUser data={session.data}/>
                       </div>
 

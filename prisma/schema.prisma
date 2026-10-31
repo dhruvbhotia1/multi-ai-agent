@@ -80,6 +80,7 @@ model Conversation {
   id        String   @id @default(uuid(7))
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -87,10 +88,9 @@ model Conversation {
 }
 
 model Message {
-  id         String     @id @default(uuid(7))
-  senderRole SenderRole
-  content    String
-
+  id             String       @id @default(uuid(7))
+  senderRole     SenderRole
+  content        String
   conversationId String
   conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   createdAt      DateTime     @default(now())
