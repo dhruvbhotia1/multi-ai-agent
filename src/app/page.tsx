@@ -1,10 +1,13 @@
-"use client"
+
 
 import {Hero} from "@/components/home/Hero";
 
 
 
-export default function Home() {
+export default async function Home() {
+
+
+
 
     return (
         <main>

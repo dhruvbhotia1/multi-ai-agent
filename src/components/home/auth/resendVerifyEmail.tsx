@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/authClient";
 
 //apply rate limiting here...
 

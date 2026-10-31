@@ -19,3 +19,5 @@ export type serverSession = typeof auth.$Infer.Session
 export type clientSession = typeof authClient.$Infer.Session
 
 export type user = typeof auth.$Infer.Session.user
+
+export type AgentNode = "chat" | "search" | "coding" | "pdf" | "ppt" | "image";
