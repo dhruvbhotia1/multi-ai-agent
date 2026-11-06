@@ -2,7 +2,7 @@ import {ApiResponse, serverSession} from "@/lib/types/ApiResponse";
 import {auth} from "@/lib/auth";
 import {headers} from "next/headers";
 import {cache} from "react";
-import {setRedisKey} from "@/lib/setRedisKey";
+import {setRedisKey} from "@/lib/user/setRedisKey";
 
 
 export const getServerSession = cache(async (): Promise<ApiResponse<serverSession>> => {

@@ -38,7 +38,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <BinaryPortalBackground/>
 
           <Navbar />
-        <main className="flex flex-col w-full h-full mt-15">
+        <main className="flex flex-col w-full h-full mt-16">
           <Toaster/>
           {children}
         </main>

@@ -7,8 +7,7 @@ import {codingAgent} from "@/lib/graph/agents/codingAgent";
 import {pdfAgent} from "@/lib/graph/agents/pdfAgent";
 import {pptAgent} from "@/lib/graph/agents/pptAgent";
 import {imageAgent} from "@/lib/graph/agents/imageAgent";
-import {AgentNode} from "@/lib/types/ApiResponse";
-
+import {AgentNode} from "@/lib/graph/llmConfig";
 
 const workflow = new StateGraph(agentState);
 

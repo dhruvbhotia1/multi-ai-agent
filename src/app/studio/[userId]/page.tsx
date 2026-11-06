@@ -1,4 +1,3 @@
-
 interface Props {
 
     params: Promise<{userId: string}>
@@ -10,7 +9,7 @@ export default async function StudioPage({params}: Props) {
 
     return (
         <>
-            {JSON.stringify(userId, null, 2)}
+
         </>
     )
 }

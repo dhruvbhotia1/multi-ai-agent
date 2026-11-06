@@ -23,7 +23,7 @@ export const Navbar = () => {
       <motion.div className="fixed top-0 left-0 w-full z-50 backdrop-blur-xl border-b text-white" initial={{ y: -80 }} animate={{ y: 0 }} transition={{duration: 0.5}}>
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between bg-transparent">
 
-          <Link href={"/"}>
+          <Link href={"/"} className={"ml-4"}>
 
             <div className="text-lg font-bold tracking-wide flex items-center cursor-pointer text-white" onClick={() => router.push("/")}>
               <Image src="/Logo.svg" height={35} width={35} alt="logo" className="mr-2"/>

@@ -1,11 +1,11 @@
 import { type GraphNode} from "@langchain/langgraph";
 import {agentState} from "@/lib/graph/state";
-import {AgentType, getModel} from "@/lib/graph/llmConfig";
-
+import {getModel} from "@/lib/graph/llmConfig";
+import {AgentNode} from "@/lib/graph/llmConfig";
 
 export const graphRouter: GraphNode<typeof agentState> = async (state) => {
 
-    const llm: AgentType = getModel(state.agent);
+    const llm = getModel("router");
 
     const prompt = `You are an agent router.
     Available agents: 
@@ -21,7 +21,7 @@ export const graphRouter: GraphNode<typeof agentState> = async (state) => {
     
     chat: 
     General Conversation,
-    explanations,
+    explanations, 
     learning,
     questions.
     
@@ -47,25 +47,32 @@ export const graphRouter: GraphNode<typeof agentState> = async (state) => {
     Questions about generate ppts
     or ppt context.
     
+    image: 
+    Generate image
+    Refine image
+    edit image
+     
     Return ONLY one word: 
     
     chat
     search
     coding
     pdf
+    ppt
+    image
     
     User Query:
+    ${state.prompt}
     `
 
+    const response = await llm.invoke(prompt);
 
-
-
+    const agent = response.content.toString().trim().toLowerCase();
 
     return {
 
-        prompt: prompt as string,
-        aiResponse: state.aiResponse,
-        agent: "chat"
+        ...state,
+        agent: agent as AgentNode,
 
     }
 

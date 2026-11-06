@@ -1,34 +1,33 @@
-import {ChatGoogleGenerativeAI} from "@langchain/google-genai";
+import {ChatGroq} from "@langchain/groq";
 import {ChatGoogle} from "@langchain/google/node";
-import {AgentNode} from "@/lib/types/ApiResponse";
 
-const genAI = new ChatGoogleGenerativeAI({
-    model: "gemini-3.8-flash",
-    temperature: 0,
-    maxRetries: 2,
+const gemini = new ChatGoogle({
+    apiKey: process.env.GOOGLE_API_KEY,
+    model: "gemini-3.7-flash",
 })
 
-const llm = new ChatGoogle({
-    model: "gemini-3.5-flash-lite",
-    temperature: 0,
-    maxRetries: 2,
+const groq = new ChatGroq({
+    apiKey: process.env.GROQ_API_KEY,
+    model: "openai/gpt-oss-120b",
+
 })
 
-export const getModel = (agent: AgentNode) => {
+export const getModel = (agent: AgentNode): AIAgentType => {
 
     switch (agent) {
-
         case "chat":
-            return llm;
+            return groq;
         case "search":
-            return llm;
+            return gemini;
         case "coding":
-            return genAI;
+            return gemini;
         default:
-            return llm;
+            return groq;
     }
-
 }
 
-export type AgentType = typeof genAI | typeof llm;
+export type AIAgentType = typeof groq | typeof gemini;
+
+export type AgentNode = "router" | "chat" | "search" | "coding" | "pdf" | "ppt" | "image";
+
 

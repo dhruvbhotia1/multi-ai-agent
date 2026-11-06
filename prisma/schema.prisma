@@ -85,6 +85,8 @@ model Conversation {
   updatedAt DateTime @updatedAt
 
   messages Message[]
+
+  @@map("conversation")
 }
 
 model Message {
@@ -95,6 +97,8 @@ model Message {
   conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
+
+  @@map("messages")
 }
 
 enum SenderRole {
