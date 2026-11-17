@@ -1,16 +1,19 @@
+import {getConversationById} from "@/lib/user/conversation/getConversationById";
 
 interface Props {
 
-    params: Promise<{conversationId: string}>
+    params: Promise<{conversationId: string, userId: string}>
 }
 
 export default async function ConversationPage({params}: Props) {
 
-    const {conversationId} = await params;
+    const {conversationId, userId} = await params;
+
+    const conversation = await getConversationById(conversationId, userId);
 
     return (
-        <>
-            Conversation Page for {conversationId}
-        </>
+        <div>
+            Conversation Page for {conversation.data?.title}
+        </div>
     )
 }

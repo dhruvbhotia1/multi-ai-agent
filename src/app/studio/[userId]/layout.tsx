@@ -8,7 +8,7 @@ export default function studioLayout({ children }: {children: React.ReactNode}) 
 
         <SidebarProvider>
             <StudioSidebar/>
-            <main>
+            <main className={"m-1.5"}>
                 <SidebarTrigger className={"absolute left-2 top-4 z-50"}/>
                 {children}
             </main>

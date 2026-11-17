@@ -6,12 +6,12 @@ export type ApiResponse<T = unknown> = {
 
     status: "success";
     message: string;
-    data: T | null,
+    data: T,
 } | {
 
     status: "error",
     errorMessage: string,
-    data: null | T,
+    data: null,
 }
 
 export type serverSession = typeof auth.$Infer.Session

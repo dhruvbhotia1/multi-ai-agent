@@ -1,4 +1,4 @@
-export const AgentController = async ( ) => {
+export const AgentController = async () => {
 
     try {
 
