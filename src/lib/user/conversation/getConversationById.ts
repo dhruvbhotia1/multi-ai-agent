@@ -19,14 +19,14 @@ export const getConversationById = async (conversationId: string, userId: string
         }
 
         if(data.data.user.id !== userId) {
-
             return {
                 status: "error",
-                errorMessage: "UNSER_ID_MISMATCH_ERR",
-                data: null
+                errorMessage: "USER_ID_MISMATCH_ERR",
+                data: null,
             }
-
         }
+
+
 
         const result = await prisma.conversation.findUnique({
             where: {
@@ -50,9 +50,6 @@ export const getConversationById = async (conversationId: string, userId: string
             message: "FOUND_CONVERSATION",
             data: result
         }
-
-
-
 
     } catch (error) {
 

@@ -3,7 +3,7 @@
 import {ApiResponse} from "@/lib/types/ApiResponse";
 import {getServerSession} from "@/lib/user/getServerSession";
 import {prisma} from "@/lib/prisma";
-import {Conversation} from "../../../../generated/prisma/client";
+import type {Conversation} from "../../../../generated/prisma/client";
 
 export const createConversation = async (title: string): Promise<ApiResponse<Conversation>> => {
 

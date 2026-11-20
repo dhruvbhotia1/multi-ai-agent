@@ -35,7 +35,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
         <Toaster/>
-        <BinaryPortalBackground/>
 
           <Navbar />
         <main className="flex flex-col w-full h-full mt-16">

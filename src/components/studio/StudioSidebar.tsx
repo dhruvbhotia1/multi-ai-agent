@@ -43,7 +43,6 @@ export function StudioSidebar() {
 
     const ConversationNameInput = () => (
 
-
         <Field>
             <FieldLabel>Conversation Name</FieldLabel>
             <Input type="text" placeholder="My conversation...." onChange={(e) => conversationName.current = e.target.value}/>
@@ -97,7 +96,7 @@ export function StudioSidebar() {
                         </SidebarMenuItem>
 
                         <SidebarMenuItem>
-                            <DropdownMenu>
+                            <DropdownMenu modal={ false }>
                                 <DropdownMenuTrigger asChild>
                                     <SidebarMenuButton>
                                         Select Conversation
@@ -117,6 +116,8 @@ export function StudioSidebar() {
                                     }
                                 </DropdownMenuContent>
                             </DropdownMenu>
+
+
                         </SidebarMenuItem>
                     </SidebarMenu>
                 </SidebarHeader>
