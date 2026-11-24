@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import {getServerSession} from "@/lib/user/getServerSession";
-import {getCurrentUserIdFromRedis} from "@/lib/user/getCurrentUserId";
 
 export default async function proxy(request: NextRequest) {
 
@@ -18,5 +17,5 @@ export default async function proxy(request: NextRequest) {
 // export default function proxy(request: NextRequest) { ... }
 
 export const config = {
-    matcher: '/studio',
+    matcher: '/studio/:path*',
 }

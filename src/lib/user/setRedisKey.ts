@@ -1,14 +1,18 @@
-import {ApiResponse} from "@/lib/types/ApiResponse";
+import { ApiResponse } from "@/lib/types/ApiResponse";
 import {redis} from "@/lib/redis";
 
-export const setRedisKey = async (key: string, value: string): Promise<ApiResponse<string>> => {
+export const setRedisKey = async (key: string, value: Record<string, unknown>): Promise<ApiResponse<number>> => {
 
     try {
 
+        const pipeline = redis.pipeline();
 
-        const response = await redis.set(key, value, {ex: 24*60*60});
+        pipeline.hset(key, value);
+        pipeline.expire(key, 24 * 60 * 60);
 
-        if(!response) {
+        const [fieldAdded] = await pipeline.exec<[number, number]>()
+
+        if(typeof fieldAdded !== "number") {
 
             return {
 
@@ -22,9 +26,11 @@ export const setRedisKey = async (key: string, value: string): Promise<ApiRespon
 
             status: "success",
             message: "REDIS_KEY_LIVE",
-            data: response,
+            data: fieldAdded,
         }
-    } catch {
+    } catch (error) {
+
+        console.log(error);
 
         return {
 

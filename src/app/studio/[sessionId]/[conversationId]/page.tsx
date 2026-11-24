@@ -5,7 +5,8 @@ interface Props {
     params: Promise<{conversationId: string, userId: string}>
 }
 
-export default async function ConversationPage({params}: Props) {
+export default async function ConversationPage({ params }: Props) {
+
 
     const {conversationId, userId} = await params;
 
@@ -13,7 +14,9 @@ export default async function ConversationPage({params}: Props) {
 
     return (
         <div>
-            Conversation Page for {conversation.data?.title}
+
+
+            Conversation Page for: {conversationId}
         </div>
     )
 }

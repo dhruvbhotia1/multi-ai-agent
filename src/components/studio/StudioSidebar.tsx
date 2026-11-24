@@ -2,6 +2,7 @@
 
 import {
     Sidebar,
+    SidebarContent,
     SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
@@ -20,8 +21,8 @@ import {ChevronDown, PlusIcon} from "lucide-react";
 import {useConfirm} from "@/hooks/use-confirm";
 import {Input} from "@/components/ui/input";
 import {cn} from "@/lib/utils";
-import {buttonVariants} from "@/components/ui/button";
-import {useEffect, useRef, useState} from "react";
+import {Button, buttonVariants} from "@/components/ui/button";
+import { useRef, useState} from "react";
 
 import {
     Field,
@@ -31,11 +32,16 @@ import {toast} from "sonner";
 import {createConversation} from "@/lib/user/conversation/createConversation";
 import {useParams, useRouter} from "next/navigation";
 import type {Conversation} from "../../../generated/prisma/client";
-import {getAllConversations} from "@/lib/user/conversation/getAllConversations";
+import { redis } from "@/lib/redis";
 
-export function StudioSidebar() {
+interface Props {
 
-    const {userId} = useParams();
+    conversations: Conversation[]
+}
+
+export function StudioSidebar({ conversations}: Props) {
+
+    const {sessionId} = useParams();
 
     const router = useRouter();
 
@@ -51,13 +57,7 @@ export function StudioSidebar() {
 
     const [NewConversationDialog, addNewConvo] = useConfirm("Add a new conversation", "all conversation must have a name", ConversationNameInput())
 
-    const [conversations, setConversations] = useState<Conversation[]>([])
-
-    useEffect(() => {
-        getAllConversations(userId as string).then(res => {
-            if (res.status === "success") setConversations(res.data ?? [])
-        })
-    }, [])
+    const [convos, setConvos] = useState<Conversation[]>(conversations)
 
     const addNewChat = async () => {
 
@@ -65,15 +65,12 @@ export function StudioSidebar() {
 
         if(!ok) return
 
-        const result = await createConversation(conversationName.current);
+        const result = await createConversation(conversationName.current, sessionId as string);
 
         if(result.status === "success") {
 
-            const updated = await getAllConversations(userId as string)
-            setConversations(updated.data ?? [])
+            setConvos((prev) => [...prev, result.data]);
             toast.success("Conversation successfully created!")
-
-            toast.success("Conversation successfully created!");
 
         }else {
             toast.error("some error occurred")
@@ -87,40 +84,44 @@ export function StudioSidebar() {
             <NewConversationDialog/>
             <Sidebar className={"mt-16"}>
                 <SidebarHeader>
+                    <Button variant={"outline"} className="w-full mb-4 font-bold" onClick={addNewChat}>
+
+                        New Chat <span><PlusIcon/></span>
+
+                    </Button>
+                </SidebarHeader>
+
+                <SidebarContent>
                     <SidebarMenu>
 
-                        <SidebarMenuItem>
-                            <SidebarMenuButton onClick={addNewChat} className={cn(buttonVariants({variant: "outline"}), "mb-4 font-medium")}>
-                                New Chat <span><PlusIcon/></span>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
+                        <div>
 
-                        <SidebarMenuItem>
-                            <DropdownMenu modal={ false }>
-                                <DropdownMenuTrigger asChild>
-                                    <SidebarMenuButton>
-                                        Select Conversation
-                                        <ChevronDown className="ml-auto"/>
-                                    </SidebarMenuButton>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent>
-                                    {
-                                        conversations.map((convo) => (
+                            <SidebarMenuItem>
+                                <DropdownMenu modal={ false }>
+                                    <DropdownMenuTrigger asChild>
+                                        <SidebarMenuButton>
+                                            Select Conversation
+                                            <ChevronDown className="ml-auto"/>
+                                        </SidebarMenuButton>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent>
+                                        {
+                                            convos.map((convo) => (
 
-                                            <DropdownMenuItem key={convo.id} onClick={() => router.push(`/studio/${userId}/${convo.id}`)}>
+                                                <DropdownMenuItem key={convo.id} onClick={() => router.push(`/studio/${sessionId}/${convo.id}`)}>
 
-                                                {convo.title}
+                                                    {convo.title}
 
-                                            </DropdownMenuItem>
-                                        ))
-                                    }
-                                </DropdownMenuContent>
-                            </DropdownMenu>
+                                                </DropdownMenuItem>
+                                            ))
+                                        }
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            </SidebarMenuItem>
 
-
-                        </SidebarMenuItem>
+                        </div>
                     </SidebarMenu>
-                </SidebarHeader>
+                </SidebarContent>
             </Sidebar>
 
         </>

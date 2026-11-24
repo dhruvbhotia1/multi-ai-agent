@@ -1,15 +1,16 @@
 "use server"
 
-import {ApiResponse} from "@/lib/types/ApiResponse";
-import {getServerSession} from "@/lib/user/getServerSession";
+import {ApiResponse, user} from "@/lib/types/ApiResponse";
 import {prisma} from "@/lib/prisma";
 import type {Conversation} from "../../../../generated/prisma/client";
+import { redis } from "@/lib/redis";
+import { getAllConversations } from "./getAllConversations";
 
-export const createConversation = async (title: string): Promise<ApiResponse<Conversation>> => {
+export const createConversation = async (title: string, sessionId: string): Promise<ApiResponse<Conversation>> => {
 
     try {
 
-        const loggedInUser = await getServerSession();
+        const loggedInUser = await redis.hget<user>(sessionId, "user");
 
         if(!loggedInUser) {
 
@@ -20,20 +21,43 @@ export const createConversation = async (title: string): Promise<ApiResponse<Con
             }
         }
 
-        const userId = loggedInUser.data?.user.id as string;
+        const userId = loggedInUser.id;
 
-        const result = await prisma.conversation.create({
+        const newConvo = await prisma.conversation.create({
             data: {
                 userId: userId,
                 title: title
             }
         })
 
+        if (!newConvo) {
+
+            return {
+
+                status: "error",
+                errorMessage: "CONVERSATION_NOT_ADDED",
+                data: null
+            }
+        }
+
+        //add to redis before returning.
+
+        const cachedConvos = await redis.hget<Conversation[]>(sessionId, "conversationList");
+
+        if (cachedConvos) {
+
+            await redis.hset(sessionId, { conversationList: [...cachedConvos, newConvo] });
+        } else {
+
+            await getAllConversations(sessionId);
+        }
+
+
         return {
 
             status: "success",
             message: "ADDED_CONVERSATION_TO_RECS",
-            data: result
+            data: newConvo
         }
 
     } catch (error) {

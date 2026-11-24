@@ -23,7 +23,7 @@ export const getServerSession = cache(async (): Promise<ApiResponse<serverSessio
             }
         }
 
-        await setRedisKey(data.session.id as string, JSON.stringify(data.user))
+        await setRedisKey(data.session.id, { user: data.user });
 
         return {
 

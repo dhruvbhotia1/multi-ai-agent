@@ -37,7 +37,7 @@ export const Navbar = () => {
                   session.data ? (
 
                       <div className={"flex flex-row items-center justify-center gap-x-4"}>
-                          <Link href={`/studio/${session.data.user.id}`} className={cn("hover:bg-zinc-800 p-3 rounded-lg font-semibold", pathname.includes("studio") && "bg-zinc-700" )}>Studio</Link>
+                          <Link href={`/studio/${session.data.session.id}`} className={cn("hover:bg-zinc-800 p-3 rounded-lg font-semibold", pathname.includes("studio") && "bg-zinc-700" )}>Studio</Link>
                           <Link href="/dashboard" className={cn("hover:bg-zinc-800 p-3 rounded-lg font-semibold", pathname.includes("dashboard") && "bg-zinc-700" )}>Dashboard</Link>
                           <Link href="/pricing" className={cn("hover:bg-zinc-800 p-3 rounded-lg font-semibold", pathname.includes("pricing") && "bg-zinc-700" )}>Pricing</Link>
                           <Link href="/contact-us" className={cn("hover:bg-zinc-800 p-3 rounded-lg font-semibold", pathname.includes("contact") && "bg-zinc-700" )}>Contact Us</Link>
